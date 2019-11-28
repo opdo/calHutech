@@ -38,21 +38,22 @@ function cal() {
     // tổng điểm hệ 4 hiện tại * tín chỉ hiện tại
     var currentSumproduct = credits * gpa;
     // điểm hệ 4 cần để đạt được mục tiêu
-    var point = (type * totalCredits - currentSumproduct) / leftCredits;
+    var fPoint = (type * totalCredits - currentSumproduct) / leftCredits;
     // làm tròn đến chữ số thập phân thứ nhất
-    point = Math.round(point * 10) / 10;
+    var point  = Math.round(fPoint * 10) / 10;
     // làm tròn đến 0.5
-    var oldPoint = point;
-    point = Math.round(point * 2) / 2;
+    point = Math.round(point  * 2) / 2;
     // kiểm tra điểm làm tròn có thỏa điều kiện hay ko
-    var flagOldPoint = Math.round(((point * leftCredits + gpa * credits)/totalCredits)*100)/100 >= type;
+    var flagfPoint = Math.round(((point * leftCredits + gpa * credits)/totalCredits)*100)/100 >= type;
     // lấy phần lẻ + 0.5 nếu điều kiện ko thỏa
-    if (!flagOldPoint) point += oldPoint > point ? 0.5 : 0;
+    if (!flagfPoint) point += fPoint > point ? 0.5 : 0;
     // tạo thành mảng
     point *= 2;
 
     var txtResult = $("#txtResult");
     var txtDetail = $("#txtDetail");
+    var tablePoint = $("#tablePoint");
+    tablePoint.hide();
 
     var needPoint = ['F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A'];
     if (point > needPoint.length) {
@@ -64,10 +65,54 @@ function cal() {
         txtDetail.html("Bạn đã đạt được mục tiêu đề ra, chỉ cần bạn không rớt môn là sẽ ổn");
     }
     else {
-        var charPoint = needPoint[point];
-        txtResult.html("Các môn còn lại cần đạt ít nhất " + charPoint);
-        var leftSubject = Math.round(leftCredits / 3);
-        txtDetail.html("Với " + leftCredits + " chỉ còn lại (khoảng " + leftSubject + " môn học), bạn chỉ cần đạt hệ 4 với <b>trung bình điểm " + charPoint + "</b>, một môn dưới điểm " + charPoint + (charPoint == 'A' ? " thì bạn sẽ mất cơ hội" : " cần đánh đổi với một môn trên điểm " + charPoint));
+        // pp tính lẻ số môn
+        var fNeedPoint = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4];
+        var cNeedPoint = [0, 0, 0, 0, 0, 0, 0, 0];
+        cNeedPoint[point] = leftCredits;
+        // giảm chỉ từ từ (mỗi lần 3 chỉ) cho đến khi không còn giảm được nữa
+        var i = point;
+        while (true)
+        {
+            // điều kiện vị trí chuyển chỉ >= 3
+            if (i < 3) break;
+            // điều kiện vị trí giảm chỉ không được ít hơn 3 chỉ
+            if (cNeedPoint[i] < 3) break;
+            // giảm và chuyển chỉ
+            cNeedPoint[i] -= 3;
+            cNeedPoint[i-1] += 3;
+
+            // điều kiện tổng điểm hiện tại phải >= điểm cần đạt fPoint
+            if (calTotalPoint(cNeedPoint) < fPoint) {
+                // ăn gian quy tắc làm tròn
+                var cheatPoint = (calTotalPoint(cNeedPoint)*leftCredits + currentSumproduct)/totalCredits;
+                cheatPoint = Math.round(cheatPoint*100)/100;
+                if (cheatPoint >= type) continue;
+
+                // trả lại giá trị cũ
+                cNeedPoint[i] += 3;
+                cNeedPoint[i-1] -= 3;
+                // tiếp tục chuyển chỉ, đổi i nếu i >= 3
+                if (i < 3) {
+                    break;
+                }
+                else {
+                    i--;
+                }
+            }
+        }
+        // hiện table point
+        tablePoint.show();
+        var tablePointBody = $("#tablePointBody");
+        var html = "";
+        for (i in cNeedPoint) {
+            var credits = cNeedPoint[i];
+            var leftSubject = Math.round(credits / 3);
+            html += createHtmlRow(needPoint[i], credits + " (khoảng "+leftSubject+" môn)");
+        }
+        tablePointBody.html(html);
+
+        txtResult.html("Cố gắng lên nhé!");
+        txtDetail.html("Với " + leftCredits + " chỉ còn lại, công cụ của chúng tôi đề xuất phân phối điểm của bạn cần đạt được như bảng bên dưới, xin lưu ý công cụ này giả định 1 môn học tương đương với 3 chỉ");
     }
 
     // tính số tín chỉ không nên vượt qua
@@ -82,4 +127,31 @@ function cal() {
 function back() {
     $("#divResult").hide();
     $("#divCal").show();
+}
+
+function calTotalPoint(lCredit)
+{
+    var point = 0;
+    var sumCredits = 0;
+    try{
+        var fListPoint = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4];
+        var i = 0;
+        for (i in lCredit) {
+            var credits = lCredit[i];
+            sumCredits+= credits;
+            point += fListPoint[i]*credits;
+        }
+        point = point/sumCredits;
+    }
+    catch {
+
+    }
+    return point;
+}
+
+function createHtmlRow(col1, col2)
+{
+    var html = "";
+    html = "<tr><th>"+col1+"</th><td>"+col2+"</td></tr>";
+    return html;
 }

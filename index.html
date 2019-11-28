@@ -11,20 +11,37 @@
 <body>
     <div class="container" style="margin-top: 30px">
         <div class="jumbotron" id="divResult" style="display:none">
-                <h1 class="display-4" id="txtResult">Đây là kết quả của bạn!</h1>
-                <p class="lead" id="txtDetail">Đây là trang giúp bạn tham khảo và định hướng điểm tốt nghiệp của bạn, dành riêng cho IT
-                    HUTECH.</p>
-                <hr class="my-4">
-                <p>
-                    Một số lưu ý bạn cần nắm:<br>
-                    <ol>
-                        <li>Đây là hệ thống gợi ý, mọi thông tin đều mang tính chất tham khảo.</li>
-                        <li>Trung bình điểm nghĩa là bạn không nhất thiết 100% phải đạt toàn bộ các môn ở số điểm đó</li>
-                        <li>Nếu một môn điểm thấp hơn điểm gợi ý, bạn cần có 1 môn trên điểm gợi ý. Ví dụ hệ thống gợi ý bạn cần đạt trung bình là điểm B, nếu có một môn điểm C+, bạn cần gỡ lại một môn điểm B+, nếu có một môn C, bạn cần gỡ một môn A.</li>
-                        <li>Nếu bạn muốn đạt được loại <b>GIỎI hoặc XUẤT SẮC</b>, bạn <b>KHÔNG ĐƯỢC cải thiện hay học lại quá 5% số tín chỉ tích lũy</b>, trường hợp của bạn không được cải thiện quá <b><span id="helloCredits"></span> tín chỉ</b>.</li>
-                    </ol>
-                </p>
-                <button class="btn btn-primary btn-lg btn-block" type="button" onclick="back()">Quay lại</a>
+            <h1 class="display-4" id="txtResult">Đây là kết quả của bạn!</h1>
+            <p class="lead" id="txtDetail">Đây là trang giúp bạn tham khảo và định hướng điểm tốt nghiệp của bạn, dành
+                riêng cho IT
+                HUTECH.</p>
+
+            <table class="table table-hover" id="tablePoint">
+                <thead>
+                    <tr>
+                        <th scope="col">Điểm</th>
+                        <th scope="col">Số chỉ</th>
+                    </tr>
+                </thead>
+                <tbody id="tablePointBody">
+                
+                </tbody>
+            </table>
+            <hr class="my-4">
+            <p>
+                Một số lưu ý bạn cần nắm:<br>
+                <ol>
+                    <li>Đây là hệ thống gợi ý, mọi thông tin đều mang tính chất tham khảo.</li>
+                    <li>Trung bình điểm nghĩa là bạn không nhất thiết 100% phải đạt toàn bộ các môn ở số điểm đó</li>
+                    <li>Nếu một môn điểm thấp hơn điểm gợi ý, bạn cần có 1 môn trên điểm gợi ý. Ví dụ hệ thống gợi ý bạn
+                        cần đạt trung bình là điểm B, nếu có một môn điểm C+, bạn cần gỡ lại một môn điểm B+, nếu có một
+                        môn C, bạn cần gỡ một môn A.</li>
+                    <li>Nếu bạn muốn đạt được loại <b>GIỎI hoặc XUẤT SẮC</b>, bạn <b>KHÔNG ĐƯỢC cải thiện hay học lại
+                            quá 5% số tín chỉ tích lũy</b>, trường hợp của bạn không được cải thiện quá <b><span
+                                id="helloCredits"></span> tín chỉ</b>.</li>
+                </ol>
+            </p>
+            <button class="btn btn-primary btn-lg btn-block" type="button" onclick="back()">Quay lại</a>
         </div>
         <div class="jumbotron" id="divCal">
             <h1 class="display-4">Xin chào bạn!</h1>
