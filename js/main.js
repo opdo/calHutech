@@ -56,7 +56,7 @@ function cal() {
     tablePoint.hide();
 
     var needPoint = ['F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A'];
-    if (point > needPoint.length) {
+    if (point >= needPoint.length) {
         txtResult.html("Rất tiếc, bạn không thể đạt mục tiêu");
         txtDetail.html("Hệ thống tính toán cho thấy, bạn không thể hoàn thành mục tiêu đặt ra");
     }
@@ -68,9 +68,12 @@ function cal() {
         // pp tính lẻ số môn
         var fNeedPoint = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4];
         var cNeedPoint = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-        cNeedPoint[point] = leftCredits;
         // giảm chỉ từ từ (mỗi lần 3 chỉ) cho đến khi không còn giảm được nữa
         var i = point;
+        cNeedPoint[i] = leftCredits;
+
+        var myPoint = $("#myPoint");
+        myPoint.html("");
         while (true)
         {
             // điều kiện vị trí chuyển chỉ >= 3
@@ -84,11 +87,9 @@ function cal() {
             // điều kiện tổng điểm hiện tại phải >= điểm cần đạt fPoint
             if (calTotalPoint(cNeedPoint) < fPoint) {
                 // ăn gian quy tắc làm tròn
-                var fCheatPoint = (calTotalPoint(cNeedPoint)*leftCredits + currentSumproduct)/totalCredits;
-                
-                var cheatPoint = Math.round(fCheatPoint*100)/100;
+                var cheatPoint = (calTotalPoint(cNeedPoint)*leftCredits + currentSumproduct)/totalCredits;
+                cheatPoint = Math.round(cheatPoint*100)/100;
                 if (cheatPoint >= type) {
-                    $("#myPoint").html(fCheatPoint);
                     continue;
                 }
 
@@ -104,6 +105,10 @@ function cal() {
                 }
             }
         }
+
+        var fCheatPoint = (calTotalPoint(cNeedPoint)*leftCredits + currentSumproduct)/totalCredits;
+        myPoint.html(fCheatPoint);
+
         // hiện table point
         tablePoint.show();
         var tablePointBody = $("#tablePointBody");
