@@ -106,6 +106,8 @@ function cal() {
         var html = "";
         for (i in cNeedPoint) {
             var credits = cNeedPoint[i];
+            if (credits == 0) continue;
+            
             var leftSubject = Math.round(credits / 3);
             html += createHtmlRow(needPoint[i], credits + " (khoảng "+leftSubject+" môn)");
         }
