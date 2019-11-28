@@ -15,18 +15,21 @@
             <p class="lead" id="txtDetail">Đây là trang giúp bạn tham khảo và định hướng điểm tốt nghiệp của bạn, dành
                 riêng cho IT
                 HUTECH.</p>
-
-            <table class="table table-hover" id="tablePoint">
-                <thead>
-                    <tr>
-                        <th scope="col">Điểm</th>
-                        <th scope="col">Số chỉ</th>
-                    </tr>
-                </thead>
-                <tbody id="tablePointBody">
-                
-                </tbody>
-            </table>
+                    <div id="tablePoint">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Điểm</th>
+                                    <th scope="col">Số chỉ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablePointBody">
+                            
+                            </tbody>
+                            <b>Website tính sát nút, điểm của bạn nếu theo bảng trên sẽ là <span style="color:red" id="myPoint"></span> (chưa áp dụng quy tắc làm tròn hai chữ số thập phân)</b>
+                        </table>
+                    </div>
+            
             <hr class="my-4">
             <p>
                 Một số lưu ý bạn cần nắm:<br>
@@ -84,7 +87,7 @@
     <script src="./js/jquery-3.4.1.slim.min.js"></script>
     <script src="./js/popper.js"></script>
     <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/main.js?version=2"></script>
+    <script src="./js/main.js?version=3"></script>
 </body>
 
 </html>

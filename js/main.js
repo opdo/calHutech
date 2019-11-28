@@ -67,7 +67,7 @@ function cal() {
     else {
         // pp tính lẻ số môn
         var fNeedPoint = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4];
-        var cNeedPoint = [0, 0, 0, 0, 0, 0, 0, 0];
+        var cNeedPoint = [0, 0, 0, 0, 0, 0, 0, 0, 0];
         cNeedPoint[point] = leftCredits;
         // giảm chỉ từ từ (mỗi lần 3 chỉ) cho đến khi không còn giảm được nữa
         var i = point;
@@ -84,9 +84,13 @@ function cal() {
             // điều kiện tổng điểm hiện tại phải >= điểm cần đạt fPoint
             if (calTotalPoint(cNeedPoint) < fPoint) {
                 // ăn gian quy tắc làm tròn
-                var cheatPoint = (calTotalPoint(cNeedPoint)*leftCredits + currentSumproduct)/totalCredits;
-                cheatPoint = Math.round(cheatPoint*100)/100;
-                if (cheatPoint >= type) continue;
+                var fCheatPoint = (calTotalPoint(cNeedPoint)*leftCredits + currentSumproduct)/totalCredits;
+                
+                var cheatPoint = Math.round(fCheatPoint*100)/100;
+                if (cheatPoint >= type) {
+                    $("#myPoint").html(fCheatPoint);
+                    continue;
+                }
 
                 // trả lại giá trị cũ
                 cNeedPoint[i] += 3;
@@ -114,7 +118,7 @@ function cal() {
         tablePointBody.html(html);
 
         txtResult.html("Cố gắng lên nhé!");
-        txtDetail.html("Với " + leftCredits + " chỉ còn lại, công cụ của chúng tôi đề xuất phân phối điểm của bạn cần đạt được như bảng bên dưới, xin lưu ý công cụ này giả định 1 môn học tương đương với 3 chỉ");
+        txtDetail.html("Với " + leftCredits + " chỉ còn lại, công cụ của chúng tôi đề xuất phân phối điểm của bạn như bảng bên dưới, xin lưu ý công cụ này giả định 1 môn học tương đương với 3 chỉ");
     }
 
     // tính số tín chỉ không nên vượt qua
